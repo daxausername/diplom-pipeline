@@ -60,7 +60,7 @@ def from_csv_to_json():
 
 def stream_data():
     import json
-    from dags.kafka import KafkaProducer
+    from kafka import KafkaProducer
     import time
 
 
