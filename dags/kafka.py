@@ -58,9 +58,9 @@ def from_csv_to_json():
 """
 
 
-def stream_data(datasetname):
+def stream_data():
     import json
-    from kafka import KafkaProducer
+    from dags.kafka import KafkaProducer
     import time
 
 
@@ -68,9 +68,9 @@ def stream_data(datasetname):
     json_dataset = get_dataset_kaggle(dataset, filename)() # извлекаем данные из kaggle в json формате
     # res = format_data(res) получаем  данные форматирвоанные через функцию
 
-    producer = KafkaProducer(bootstrap_servers = ['localhost:9092'], max_block_ns = 5000)
+    producer = KafkaProducer(bootstrap_servers = ['broker:29092'], max_block_ns = 5000)
 
-    producer.send('users_created', json.dumps(res).encode('utf-8'))
+    producer.send('users_created', json.dumps(json_dataset).encode('utf-8'))
 
 
 
@@ -85,5 +85,5 @@ with DAG('pipeline_froad',
         python_callable = stream_data
     )
 
-stream_data();
+stream_data()
 
